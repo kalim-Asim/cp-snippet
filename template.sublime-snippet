@@ -1,0 +1,51 @@
+<snippet>
+	<content><![CDATA[
+#include<bits/stdc++.h>
+using namespace std;
+
+#define MOD     1000000007
+#define int     long long int
+#define pb      push_back
+#define MAX     LLONG_MAX
+#define MIN     LLONG_MIN
+#define vi      vector<int>
+#define mii     map<int, int>
+#define pii     pair<int, int>
+#define no      cout << "NO\n"
+#define yes     cout << "YES\n"
+#define sz(x)   ((int)(x).size())
+#define all(x)  (x).begin(), (x).end()
+#define ret(n)  cout <<setprecision(20)<<n<<endl
+#define vin(a)  for(int i = 0; i < (a).size(); ++i) cin >> a[i];
+#define vout(a) for(int i = 0; i < (a).size(); ++i) cout << a[i] << ' ';
+
+#ifndef ONLINE_JUDGE
+    #include "debug.h"
+#else
+    #define debug(...) 
+#endif
+
+void solve() {
+    
+}
+
+signed main() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+
+#ifndef ONLINE_JUDGE
+    freopen("Error.txt", "w", stderr);
+#endif
+       
+    int tt = 1; 
+    cin >> tt;
+    while(tt--) 
+        {solve();}
+    return 0;
+} 
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>template</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>
