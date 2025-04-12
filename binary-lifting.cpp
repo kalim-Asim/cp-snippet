@@ -1,5 +1,10 @@
-int up[200001][20];
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
 
+const int N = 200000;
+int up[N+1][20];
+vector<vector<int>> g;
 void binary_lifting(int src, int par = -1) {
   up[src][0] = par;
   for (int i = 1; i < 20; i++) {
@@ -21,4 +26,25 @@ int query(int node, int jump_required) {
       return query(up[node][i], jump_required - (1 << i));
     }
   }  
+}
+void solve(int tt, int tc) {
+    int n, q;
+    cin >> n >> q;
+    g.resize(n+1);
+    for (int i = 2; i <= n; i++) {
+        int u; cin >> u;
+        g[u].push_back(i);
+        g[i].push_back(u);
+    }
+    binary_lifting(1);
+    while(q--) {
+        int u, k;
+        cin >> u >> k;
+        cout << query(u, k) << '\n';
+    }
+}
+
+signed main(){
+    solve();
+    return 0;
 }
