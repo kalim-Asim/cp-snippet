@@ -1,12 +1,26 @@
-void dfs(int src, int par, int level = 0) {
-  lvl[src] = level;
-  for (int child : g[src]) {
-    if (child == par) continue;
-    dfs(child, par);
+const int N = 200000;
+int up[N+1][20];
+
+void dfs(int v, int par, int level = 0) {
+  lvl[v] = level;
+  for (int u : g[v]) {
+    if (u == par) continue;
+    dfs(u, v);
   }
 }
 
-// binary lifting
+void binary_lifting(int v, int par = -1) {
+  up[v][0] = par;
+  for (int i = 1; i < 20; i++) {
+    if (up[v][i-1] != -1) up[v][i] = up[up[v][i-1]][i-1];
+    else up[v][i] = -1;
+  }
+
+  for (int u : g[v]) {
+    if (u == par) continue;
+    binary_lifting(u, src);
+  }
+}
 
 int lift_node(int v, int jump) {
   for (int i = 19; i >= 0; i--) {
@@ -17,21 +31,6 @@ int lift_node(int v, int jump) {
     }
   }
   return v;
-}
-
-int LCA2(int u, int v) { // (Logn)*(Logn)
-  if (lvl[u] < lvl[v] swap(u, v);
-  u = lift_node(u, lvl[u] - lvl[v]);
-
-  int lo = 0, hi = lvl[u];
-  while(lo != hi) {
-    int mid = (lo + hi) / 2;
-    int x1 = lift_node(u, mid);
-    int x2 = lift_node(v, mid);
-    if (x1 == x2) hi = mid;
-    else lo = mid + 1;
-  }
-  return lift_node(u, lo);
 }
 
 int LCA(int u, int v) { // logn
@@ -45,4 +44,20 @@ int LCA(int u, int v) { // logn
     }
   }
   return lift_node(u, 1);
+}
+
+// just for show - binary search approach
+int LCA2(int u, int v) { // (Logn)*(Logn)
+  if (lvl[u] < lvl[v] swap(u, v);
+  u = lift_node(u, lvl[u] - lvl[v]);
+
+  int lo = 0, hi = lvl[u];
+  while(lo != hi) {
+    int mid = (lo + hi) / 2;
+    int x1 = lift_node(u, mid);
+    int x2 = lift_node(v, mid);
+    if (x1 == x2) hi = mid;
+    else lo = mid + 1;
+  }
+  return lift_node(u, lo);
 }
