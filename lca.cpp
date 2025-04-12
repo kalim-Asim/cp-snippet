@@ -1,3 +1,5 @@
+// CSES - company queries 2
+
 const int N = 200000;
 int up[N+1][20];
 
