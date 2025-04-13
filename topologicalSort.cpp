@@ -1,9 +1,3 @@
-<snippet>
-	<content><![CDATA[
-
-
-#include<bits/stdc++.h>
-using namespace std;
 
 const int N = 1e5 + 5;
 vector<int> vis(N, 0);
@@ -64,9 +58,3 @@ vector<int> toposort(int n) {
     return ans;
 }
 
-]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>topologicalSort</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<scope>source.c++</scope>
-</snippet>
