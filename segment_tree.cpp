@@ -1,6 +1,3 @@
-<snippet>
-	<content><![CDATA[
-
 
 const int N = 1e5;
 int a[N], seg[4 * N];
@@ -39,10 +36,3 @@ int main() {
         cout << query(0, 0, n - 1, l, r) << endl;
     }
 }
-
-]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>segment_tree</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<scope>source.c++</scope>
-</snippet>
