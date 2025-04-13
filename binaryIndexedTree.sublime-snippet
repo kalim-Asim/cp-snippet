@@ -1,18 +1,22 @@
 <snippet>
 	<content><![CDATA[
 
-// op:1 => a[i] = x
-// op:2 => sum[l,r] = ?
+/*
+	// op:1 => a[i] = x
+	// op:2 => sum[l,r] = ?
+	
+	// rightmost bit set -> x & (-x)
+	// to unset it -> x - (x & (-x))
+	
+	// (i, j) j = remove last of i, j = i - (i&(-i))
+	// bit[i] => j+1->i tk ka sum
+	
+	// 12(i) = 1100 -> j = 1000(8) -> bit[12] = 9->12 tk ka sum
+	// sum[1, 13] = bit[13] + bit[12] + bit[8]
+*/	
 
-// rightmost bit set -> x & (-x)
-// to unset it -> x - (x & (-x))
 
-// (i, j) j = remove last of i, j = i - (i&(-i))
-// bit[i] => j+1->i tk ka sum
-
-// 12(i) = 1100 -> j = 1000(8) -> bit[12] = 9->12 tk ka sum
-// sum[1, 13] = bit[13] + bit[12] + bit[8]
-
+// Binary Indexed Tree - Luv sir
 const int N = 1e5+10;
 int bit[N];
 
@@ -28,35 +32,15 @@ int sum(int i){
     return ans;
 }
 
+
+
+
+
 /*
-Question 1 Given array of size N and Q querries
-Solve two type of quereies
-Type1 : i x : replace ith index by value x
-Type 2 : l r : find sum from l to r
-Input :
-N Q
-N elemnts of array
-Type i x / Type l r(Q lines)
-
-
-Example :
-5 4
-3 4 5 6 3
-2 2 4
-1 2 6
-2 2 4
-2 1 5
-Output : 
-15
-17
-23
-
-
+	Question 1 Given array of size N and Q querries Solve two type of quereies
+	Type1 : i x : replace ith index by value x
+	Type 2 : l r : find sum from l to r
 */
-
-
-
-
 int main(){
     int n, q;
     cin >> n >> q;
@@ -83,26 +67,11 @@ int main(){
 }
 
 
+
+
 /*
-Question 2 find inversion count of array
-((a[i] > a[j] and i < j)) how many i's are index j -> summation
-Input :
-N : elemnts of array
-
-Example :
-5
-8 4 9 2 8
-Output : 
-5
-
-Large input : 
-5
-100000000 10000 10000000000 10 100000000
-Output : 
-5
+	Question 2 find inversion count of array ((a[i] > a[j] and i < j)) how many i's are index j -> summation
 */
-
-
 int main(){
     int n;
     cin >> n;
@@ -112,7 +81,6 @@ int main(){
         cin >> a[i];
         mp[a[i]];
     }
-
 
     // compression of numbers for the case where a[i] > 10 ^ 6
     int ptr = 1;
@@ -124,7 +92,6 @@ int main(){
         a[i] = mp[a[i]];
     }
 
-    // Finding Inversion count
     int inversion_ct = 0;
     for(int i = 1; i<= n; ++i){
         inversion_ct += (sum(N-5) - sum(a[i]));
@@ -133,6 +100,9 @@ int main(){
 
     cout << inversion_ct << endl;
 }
+
+
+
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>binaryIndexedTree</tabTrigger>
