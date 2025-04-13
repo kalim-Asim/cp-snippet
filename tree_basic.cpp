@@ -1,7 +1,4 @@
-<snippet>
-	<content><![CDATA[
-#include<bits/stdc++.h>
-using namespace std;
+
 
 const int N = 1e5;
 int depth[N], height[N];
@@ -28,7 +25,7 @@ void dfs(int vertex, int par=0) {
 // including the value of node i and 
 // no. of nodes which are even
 // and gcd of subtree
-/*
+
 int val[N], gc[N];
 void dfs_preCompute(int vertex, int par=0) {
 
@@ -43,28 +40,5 @@ void dfs_preCompute(int vertex, int par=0) {
         gc[vertex] = __gcd(gc[vertex], gc[child]);
     }
 }
-*/
-int main() {
-    int n; cin >> n;
-
-    for (int i = 0; i < n-1; i++) {
-        int x,y; cin >> x >> y;
-        g[x].push_back(y); g[y].push_back(x);
-    }
-    dfs(1);
-    // for assigning value in gcd ques
-    // for (int i = 1; i<= n; i++) 
-    //      cin >> val[i], gc[i] = val[i];
-
-    // dfs_preCompute(1);  DP ON TREES
 
 
-    // for (int i = 1; i<= n; i++) cout << gc[i] << ' ';
-
-}
-]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>tree_basic</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<scope>source.c++</scope>
-</snippet>
