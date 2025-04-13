@@ -1,7 +1,3 @@
-<snippet>
-	<content><![CDATA[
-#include<bits/stdc++.h>
-using namespace std;
 
 const int N = 3 * 1e5 + 10;
 int n, m, u, v, wt;
@@ -60,9 +56,3 @@ int main() {
     }
     cout << totalCost << endl;
 }
-]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>kruskal</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<scope>source.c++</scope>
-</snippet>
