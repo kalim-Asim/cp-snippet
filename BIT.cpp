@@ -1,5 +1,3 @@
-<snippet>
-	<content><![CDATA[
 
 /*
 	// op:1 => a[i] = x
@@ -103,9 +101,68 @@ int main(){
 
 
 
-]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>binaryIndexedTree</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<scope>source.c++</scope>
-</snippet>
+// Binary Indexed Tree 
+class BIT {
+public:
+    vector<int> bit;
+    int n;
+
+    BIT(int size) {
+        n = size;
+        bit.assign(n + 1, 0);
+    }
+
+    // Add value 'val' at position 'index'
+    void update(int index, int val) {
+        while (index <= n) {
+            bit[index] += val;
+            index += index & -index; // Move to the next index
+        }
+    }
+
+    // Get the prefix sum from 1 to index
+    int sum(int index) {
+        int result = 0;
+        while (index > 0) {
+            result += bit[index];
+            index -= index & -index; // Move to the parent index
+        }
+        return result;
+    }
+
+    // Get the sum from [L, R]
+    int rangeSum(int L, int R) {
+        return sum(R) - sum(L - 1);
+    }
+};
+
+
+
+/* 	problem ->
+	to find occurence of a no. when we are incrementing count of no. in [L,R] by 1
+*/
+int main() {
+    int n = 10;  // Assuming numbers are between 1 and 10
+    BIT bit(n);
+
+    // Intervals to add (L, R)
+    vector<pair<int, int>> intervals = {{1, 5}, {2, 7}, {4, 9}};
+
+    // Mark the intervals in the BIT
+    for (auto [L,R] : intervals) {
+        bit.update(L, 1);   // Increment at the start of the interval
+        if (R + 1 <= n) {
+            bit.update(R + 1, -1);  // Decrement right after the interval
+        }
+    }
+
+    // Queries to find how many times a number appears
+    vector<int> queries = {1, 5, 6, 9};
+
+    for (int x : queries) {
+        int count = bit.sum(x); // Count the occurrences of x
+        cout << "Number " << x << " appears " << count << " times in the intervals." << endl;
+    }
+
+    return 0;
+}
