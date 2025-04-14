@@ -1,7 +1,3 @@
-<snippet>
-	<content><![CDATA[
-#include<bits/stdc++.h>
-using namespace std;
 
 const int N = 3 * 1e5 + 10;
 struct union_find {
@@ -39,7 +35,7 @@ struct union_find {
         return true;
     }
 };
-
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ */
 int n, m, members, candidate, connected_component;
 vi g[N], parent(N), _size(N);
 
@@ -93,9 +89,4 @@ int main() {
         if (find(i) == i) connected_component2++;
     } // above and this give same ans
 }
-]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>dsu</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<scope>source.c++</scope>
-</snippet>
+
