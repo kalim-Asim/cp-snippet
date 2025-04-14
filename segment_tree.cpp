@@ -111,3 +111,97 @@ int main() {
     }
 }
 
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ */
+
+// range update queries
+/*
+    Given an array of n integers, your task is to process q queries of the following types:
+    increase each value in range [a,b] by u
+    what is the value at position k?
+*/
+
+struct SegmentTree {
+    int n;  
+    vector<int> tree; 
+    vector<int> lazy;  
+
+    SegmentTree(const vector<int>& arr) {
+        n = arr.size();
+        tree.resize(4 * n, 0);
+        lazy.resize(4 * n, 0);
+        build(arr, 0, 0, n - 1);
+    }
+
+    void build(const vector<int>& arr, int idx, int l, int r) {
+        if(l == r) {
+            tree[idx] = arr[l];
+            return;
+        }
+        int mid = (l + r) / 2;
+        build(arr, 2 * idx + 1, l, mid);
+        build(arr, 2 * idx + 2, mid + 1, r);
+        tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
+    }
+
+    void propagate(int idx, int l, int r) {
+        if (lazy[idx] != 0) {
+            tree[idx] += (r - l + 1) * lazy[idx];
+            if(l != r) {
+                lazy[2 * idx + 1] += lazy[idx];
+                lazy[2 * idx + 2] += lazy[idx];
+            }
+            lazy[idx] = 0;
+        }
+    }
+
+    void updateRange(int idx, int l, int r, int ql, int qr, int val) {
+        propagate(idx, l, r);
+        if (r < ql || l > qr) return;
+        if (l >= ql && r <= qr) {
+            tree[idx] += (r - l + 1) * val;
+            if(l != r) {
+                lazy[2 * idx + 1] += val;
+                lazy[2 * idx + 2] += val;
+            }
+            return;
+        }
+
+        int mid = (l + r) / 2;
+        updateRange(2 * idx + 1, l, mid, ql, qr, val);
+        updateRange(2 * idx + 2, mid + 1, r, ql, qr, val);
+        tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
+    }
+
+    int queryPoint(int idx, int l, int r, int pos) {
+        propagate(idx, l, r);
+        if (l == r) return tree[idx];
+        int mid = (l + r) / 2;
+        if (pos <= mid) return queryPoint(2 * idx + 1, l, mid, pos);
+        else return queryPoint(2 * idx + 2, mid + 1, r, pos);
+    }
+};
+
+signed main() {
+    int n, q;
+    cin >> n >> q;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    SegmentTree segTree(arr);
+
+    while(q--) {
+        int type;
+        cin >> type;
+        if(type == 1) {  
+            int a, b, u;
+            cin >> a >> b >> u;
+            segTree.updateRange(0, 0, n - 1, a - 1, b - 1, u);
+        } else {  
+            int k;
+            cin >> k;
+            cout << segTree.queryPoint(0, 0, n - 1, k - 1) << "\n";
+        }
+    }
+}
