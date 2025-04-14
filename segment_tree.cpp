@@ -43,32 +43,26 @@ int main() {
 
 // Range sum query - point update
 struct SegmentTree {
-    int n;
-    vector<int> a, tree;
+    int n;                  
+    vector<int> tree;         
+    vector<int> arr;     
 
-    SegmentTree(int _n) : n(_n) {
-        a.resize(n);
+    SegmentTree(const vector<int>& a) {
+        n = a.size();
+        arr = a;
         tree.resize(4 * n, 0);
+        build(0, 0, n - 1);
     }
 
     void build(int idx, int l, int r) {
         if (l == r) {
-            tree[idx] = a[l];
+            tree[idx] = arr[l];
             return;
         }
         int mid = (l + r) / 2;
         build(2 * idx + 1, l, mid);
         build(2 * idx + 2, mid + 1, r);
         tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
-    }
-
-    int query(int idx, int l, int r, int ql, int qr) {
-        if (qr < l || ql > r) return 0;
-        if (ql <= l && r <= qr) return tree[idx];
-        int mid = (l + r) / 2;
-        int left = query(2 * idx + 1, l, mid, ql, qr);
-        int right = query(2 * idx + 2, mid + 1, r, ql, qr);
-        return left + right;
     }
 
     void update(int idx, int l, int r, int pos, int val) {
@@ -83,18 +77,30 @@ struct SegmentTree {
             update(2 * idx + 2, mid + 1, r, pos, val);
         tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
     }
+
+    int query(int idx, int l, int r, int ql, int qr) {
+        if (qr < l || ql > r)
+            return 0;
+        if (ql <= l && r <= qr)
+            return tree[idx];
+        int mid = (l + r) / 2;
+        int leftSum = query(2 * idx + 1, l, mid, ql, qr);
+        int rightSum = query(2 * idx + 2, mid + 1, r, ql, qr);
+        return leftSum + rightSum;
+    }
 };
 
-int main() {
+signed main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     int n, q;
     cin >> n >> q;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++)
+        cin >> a[i];
 
-    SegmentTree st(n);
-    for (int i = 0; i < n; i++) {
-        cin >> st.a[i];
-    }
-
-    st.build(0, 0, n - 1);
+    SegmentTree seg(a);
 
     while (q--) {
         int type;
@@ -102,18 +108,20 @@ int main() {
         if (type == 1) {
             int k, u;
             cin >> k >> u;
-            st.update(0, 0, n - 1, k - 1, u);
-        } else {
+            seg.update(0, 0, n - 1, k - 1, u);  
+        } else if (type == 2) {
             int l, r;
             cin >> l >> r;
-            cout << st.query(0, 0, n - 1, l - 1, r - 1) << '\n';
+            cout << seg.query(0, 0, n - 1, l - 1, r - 1) << "\n";  
         }
     }
 }
 
+
+
 /* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ */
 
-// range update queries
+// range update queries - lazy propagation
 /*
     Given an array of n integers, your task is to process q queries of the following types:
     increase each value in range [a,b] by u
