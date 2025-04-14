@@ -1,5 +1,3 @@
-<snippet>
-	<content><![CDATA[
 
 const int MAXN = 1e5 + 5;
 const int mod = 998244353;
@@ -7,15 +5,17 @@ int fac[MAXN + 1];
 int inv[MAXN + 1];
 
 void modadd(int &a , int b) {
-    a = ((a % MOD) + (b % MOD)) % MOD;
+    a = ((a % mod) + (b % mod)) % mod;
 }
 void modsub(int &a , int b) {
-    a = ((a % MOD) - (b % MOD) + MOD) % MOD;
+    a = ((a % mod) - (b % mod) + mod) % mod;
 }
 void modmul(int &a , int b) {
-    a = ((a % MOD) * (b % MOD)) % MOD;
+    a = ((a % mod) * (b % mod)) % mod;
 }
-
+int moddiv(int a, int b) {
+    return (int)((1LL * (a % mod) * exp(b % mod, mod - 2)) % mod);
+}
 int inv(int a, int p = mod - 2) {
     if(p == 0) return 1;
     if(p & 1) return (a * inv(a, p - 1)) % mod;
@@ -24,22 +24,16 @@ int inv(int a, int p = mod - 2) {
     return (k * k) % mod;
 }
  
- 
-// binary exp under mod
-int exp(int x,int n,int mod){
+int exp(int x, int n, int mod) {
     x %= mod;
     int res = 1; 
-    while(n > 0){
-        if(n % 2 == 1) res = res * x % mod;
+    while (n > 0) {
+        if (n % 2 == 1) res = res * x % mod;
         x = x * x % mod; 
         n /= 2;
     }
     return res % mod;
 }
-// int divMOD(int a,int b){
-//     return (a % mod * exp(b % mod, (mod-2), mod)) % mod;
-// }
-
 void factorial(){
     fac[0] = 1;
     for(int i = 1; i <= MAXN; i++)  fac[i] = fac[i - 1] * i % mod; 
@@ -51,6 +45,9 @@ void inverses() {
 int nCr(int n, int r) { 
     return (r > n ? 0ll : (fac[n] * inv[r] % mod * inv[n - r] % mod) % mod) ;
 }
+
+
+
 
 //     SIEVE PRIME NO. 
 const int N = 1e6;
@@ -109,9 +106,3 @@ int SquareRoot(int n)
 }
 
 
-]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>mathcode</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<scope>source.c++</scope>
-</snippet>
