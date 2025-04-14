@@ -97,7 +97,7 @@ struct union_find {
 // 3. Kruskal - MST
 
 /* dsu template */
-int main() {
+void kruskal() {
     cin >> n >> m;
 
     vector<pair<int ,pair<int,int>>> edges;
@@ -207,7 +207,7 @@ void dijkstra(int source) {
 const int N = 510;
 const int INF = 1e9+10;
 int dist[N][N];
-int main() {
+void FloydWarshall() {
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < n; j++) {
             if (i == j) dist[i][j] = 0;
