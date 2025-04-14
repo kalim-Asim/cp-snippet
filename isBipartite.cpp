@@ -1,5 +1,3 @@
-<snippet>
-	<content><![CDATA[
 
 bool isBipartite(int V, vector<vector<int>> &adj) {
     vector<int> col(V, -1);
@@ -27,9 +25,3 @@ bool isBipartite(int V, vector<vector<int>> &adj) {
 }
 
 
-]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>isBipartite</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<scope>source.c++</scope>
-</snippet>
