@@ -1,16 +1,10 @@
-<snippet>
-	<content><![CDATA[
-// DIJKSTRA
 
-#include<bits/stdc++.h>
-using namespace std;
+// DIJKSTRA
 
 const int N = 1e3 + 10;
 vector<pair<int,int>> g[N]; // node , weight
 vector<int> vis(N, 0), dist(N, 1e9);
 void dijkstra(int source) {
-    
-
     set<pair<int,int>> st; // weight , node
     st.insert({0, source});
     dist[source] = 0;
@@ -36,25 +30,3 @@ void dijkstra(int source) {
     }
 }
 
-int main() {
-    int n, Edges;
-    cin >> n >> Edges;
-
-    for(int i = 0; i < Edges; ++i) {
-        int x,y,wt;
-        cin >> x >> y >> wt;
-        g[x].push_back({ y, wt });
-    }
-
-    int source; cin >> source;
-    dijkstra(source);
-
-    for(int i = 1; i<=n; i++) // 1 BASED graph
-        cout << dist[i] << ' ';
-}
-]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>dijkstra</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<scope>source.c++</scope>
-</snippet>
