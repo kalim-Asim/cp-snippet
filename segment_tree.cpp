@@ -1,47 +1,5 @@
-// range max query - no updates
-struct SegmentTree {
-    static const int N = 1e5;
-    int a[N], seg[4 * N];
-
-    void build(int ind, int lo, int hi) {
-        if (lo == hi) {
-            seg[ind] = a[lo];
-            return;
-        }
-        int mid = (lo + hi) / 2;
-        build(2 * ind + 1, lo, mid);
-        build(2 * ind + 2, mid + 1, hi);
-        seg[ind] = max(seg[2 * ind + 1], seg[2 * ind + 2]);
-    }
-
-    int query(int ind, int lo, int hi, int l, int r) {
-        if (lo >= l && hi <= r) return seg[ind];
-        if (hi < l || lo > r) return INT_MIN;
-
-        int mid = (lo + hi) / 2;
-        int left = query(2 * ind + 1, lo, mid, l, r);
-        int right = query(2 * ind + 2, mid + 1, hi, l, r);
-        return max(left, right);
-    }
-};
-
-int main() {
-    SegmentTree st;
-    int n; cin >> n;
-    for (int i = 0; i < n; i++) cin >> st.a[i];
-
-    st.build(0, 0, n - 1);
-
-    int q; cin >> q;
-    while (q--) {
-        int l, r; cin >> l >> r;
-        cout << st.query(0, 0, n - 1, l, r) << "\n";
-    }
-}
-
-/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ */
-
-// Range sum query - point update
+// Range sum query - point update 
+// (STANDARD TEMPLATE)
 struct SegmentTree {
     int n;                  
     vector<int> tree;         
@@ -65,7 +23,7 @@ struct SegmentTree {
         tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
     }
 
-    void update(int idx, int l, int r, int pos, int val) {
+    void update(int idx=0, int l=0, int r=n-1, int pos, int val) {
         if (l == r) {
             tree[idx] = val;
             return;
@@ -78,7 +36,7 @@ struct SegmentTree {
         tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
     }
 
-    int query(int idx, int l, int r, int ql, int qr) {
+    int query(int idx=0, int l=0, int r=n-1, int ql, int qr) {
         if (qr < l || ql > r)
             return 0;
         if (ql <= l && r <= qr)
@@ -106,17 +64,65 @@ signed main() {
         int type;
         cin >> type;
         if (type == 1) {
-            int k, u;
-            cin >> k >> u;
-            seg.update(0, 0, n - 1, k - 1, u);  
+            int pos, val; cin >> pos >> val;
+            seg.update(0, 0, n - 1, --pos, val);  
         } else if (type == 2) {
-            int l, r;
-            cin >> l >> r;
-            cout << seg.query(0, 0, n - 1, l - 1, r - 1) << "\n";  
+            int l, r; cin >> l >> r;
+            cout << seg.query(0, 0, n - 1, --l, --r) << "\n";  
         }
     }
 }
 
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ */
+
+
+// range min, gcd, countOfMin query - no updates
+struct Node {
+    int gcd, mn, cntmn;
+};
+struct SegmentTree {
+    int n;                  
+    vector<Node> tree;         
+    vector<int> arr;     
+
+    SegmentTree(const vector<int>& a) {
+        n = a.size();
+        arr = a;
+        tree.resize(4 * n);
+        build(0, 0, n - 1);
+    }
+    Node merge(const Node& l, const Node& r) {
+        Node res;
+        res.mn = min(l.mn, r.mn);
+        res.gcd = __gcd(l.gcd, r.gcd);
+        if (l.mn == r.mn) res.cntmn = l.cntmn + r.cntmn;
+        else res.cntmn = l.mn == res.mn ? l.cntmn : r.cntmn;
+        return res;
+    }
+    void build(int idx, int l, int r) {
+        if (l == r) {
+            tree[idx].mn = arr[l];
+            tree[idx].gcd = arr[l];
+            tree[idx].cntmn = 1;
+            return;
+        }
+        int mid = (l + r) / 2;
+        build(2 * idx + 1, l, mid);
+        build(2 * idx + 2, mid + 1, r);
+        tree[idx] = merge(tree[2*idx+1], tree[2*idx+2]);
+    }
+
+    Node query(int idx, int l, int r, int ql, int qr) {
+        if (qr < l || ql > r)
+            return {0, inf, 0};
+        if (ql <= l && r <= qr)
+            return tree[idx];
+        int mid = (l + r) / 2;
+        Node left = query(2 * idx + 1, l, mid, ql, qr);
+        Node right = query(2 * idx + 2, mid + 1, r, ql, qr);
+        return merge(left, right);
+    }
+};
 
 
 /* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ */
