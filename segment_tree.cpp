@@ -127,6 +127,57 @@ struct SegmentTree {
 
 /* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ */
 
+// INVERSION COUNT + Compression
+// Standard Template(1st one)
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    map<int,int> mp;
+    for (int& i: a) cin >> i, mp[i];
+    // coordinate compression
+    int ptr = 1;
+    for (auto &pr : mp) {
+        pr.second = ptr++;
+    }
+    for (int i = 0; i < n; ++i) {
+        a[i] = mp[a[i]];
+    }
+
+    int mx = *max_element(a.begin(), a.end());
+    vector<int> freq(mx+1, 0);
+
+    // for every i, find no. of elements to its left which are greater
+    // and no. of elements to its right which are lesser
+
+    int ans = 0;
+    vector<int> greater(n), lesser(n);
+    SegmentTree seg1(greater), seg2(lesser);
+    for (int i = 0; i < n; ++i) {
+        // finding greater element to left
+        if (a[i]+1 <= mx) {
+            greater[i] = seg1.query(0, 0, mx, a[i] + 1, mx);
+        }
+        seg1.update(0, 0, mx, a[i], 1);
+    }
+
+    for (int i = n-1; i >= 0; i--) {
+        // finding lesser element to right
+        if (a[i]-1 >= 1) {
+            lesser[i] = seg2.query(0, 0, mx, 0, a[i]-1);
+        }
+        seg2.update(0, 0, mx, a[i], 1);
+    }
+
+    for (int i = 0; i < n; i++) 
+        ans += lesser[i]*greater[i];
+    cout << ans << endl;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ */
+
+
+
 // range update queries - lazy propagation
 /*
     Given an array of n integers, your task is to process q queries of the following types:
