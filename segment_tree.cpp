@@ -23,7 +23,7 @@ struct SegmentTree {
         tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
     }
 
-    void update(int idx=0, int l=0, int r=n-1, int pos, int val) {
+    void update(int idx, int l, int r, int pos, int val) {
         if (l == r) {
             tree[idx] = val;
             return;
@@ -36,7 +36,7 @@ struct SegmentTree {
         tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
     }
 
-    int query(int idx=0, int l=0, int r=n-1, int ql, int qr) {
+    int query(int idx, int l, int r, int ql, int qr) {
         if (qr < l || ql > r)
             return 0;
         if (ql <= l && r <= qr)
