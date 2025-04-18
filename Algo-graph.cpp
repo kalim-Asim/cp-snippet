@@ -241,11 +241,13 @@ int in[N+1], out[N+1];
 vector<int> eulerTour = {-1};
 void eulerDfs(int v, int par) {
     in[v] = timer++;
+    eulerTour.push_back(val[v]);
     for (int u : g[v]) {
         if (u == par) continue;
         eulerDfs(u, v);
     }
     out[v] = timer++;
+    eulerTour.push_back(val[v]);
     return;
 }
 
