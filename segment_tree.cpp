@@ -184,7 +184,6 @@ void solve() {
     increase each value in range [a,b] by u
     what is the value at position k?
 */
-
 struct SegmentTree {
     int n;  
     vector<int> tree; 
@@ -219,6 +218,10 @@ struct SegmentTree {
         }
     }
 
+    void updateRange(int ql, int qr, int val) {
+        updateRange(0, 0, n - 1, ql, qr, val);
+    }
+
     void updateRange(int idx, int l, int r, int ql, int qr, int val) {
         propagate(idx, l, r);
         if (r < ql || l > qr) return;
@@ -230,19 +233,39 @@ struct SegmentTree {
             }
             return;
         }
-
         int mid = (l + r) / 2;
         updateRange(2 * idx + 1, l, mid, ql, qr, val);
         updateRange(2 * idx + 2, mid + 1, r, ql, qr, val);
         tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
     }
 
+    int queryRange(int ql, int qr) {
+        return queryRange(0, 0, n - 1, ql, qr);
+    }
+
+    int queryRange(int idx, int l, int r, int ql, int qr) {
+        propagate(idx, l, r);
+        if (r < ql || l > qr) 
+            return 0;                    
+        if (l >= ql && r <= qr) 
+            return tree[idx];           
+        int mid = (l + r) / 2;
+        return queryRange(2 * idx + 1, l, mid, ql, qr)
+             + queryRange(2 * idx + 2, mid + 1, r, ql, qr);
+    }
+
+    int queryPoint(int pos) {
+        return queryPoint(0, 0, n - 1, pos);
+    }
+
     int queryPoint(int idx, int l, int r, int pos) {
         propagate(idx, l, r);
         if (l == r) return tree[idx];
         int mid = (l + r) / 2;
-        if (pos <= mid) return queryPoint(2 * idx + 1, l, mid, pos);
-        else return queryPoint(2 * idx + 2, mid + 1, r, pos);
+        if (pos <= mid)
+            return queryPoint(2 * idx + 1, l, mid, pos);
+        else
+            return queryPoint(2 * idx + 2, mid + 1, r, pos);
     }
 };
 
