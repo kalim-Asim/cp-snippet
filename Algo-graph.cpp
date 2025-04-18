@@ -238,20 +238,18 @@ void FloydWarshall() {
 int N = 2*1e5;
 int timer = 1;
 int in[N+1], out[N+1];
-void eulerDfs(int v, int par, int d) {
-    lev[v] = d;
+vector<int> eulerTour = {-1};
+void eulerDfs(int v, int par) {
     in[v] = timer++;
-    eulerTour.push_back((lev[v]&1) ? -1*val[v] : val[v]);
     for (int u : g[v]) {
         if (u == par) continue;
-        eulerDfs(u, v, d+1);
+        eulerDfs(u, v);
     }
     out[v] = timer++;
-    eulerTour.push_back((lev[v]&1) ? -1*val[v] : val[v]);
     return;
 }
 
-euler(1,-1,0); // 1 based tree
+euler(1,-1); // 1 based tree
 /*  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------    */
 
 // 9. 
