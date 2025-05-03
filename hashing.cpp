@@ -1,6 +1,4 @@
 
-<snippet>
-    <content><![CDATA[
 
 // Hash function for pairs
 struct pair_hash {
@@ -46,10 +44,3 @@ struct Hash {
         return {hash1, hash2};
     }
 };
-
-]]></content>
-    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-    <tabTrigger>hashing</tabTrigger>
-    <!-- Optional: Set a scope to limit where the snippet will trigger -->
-    <scope>source.c++</scope>
-</snippet>
