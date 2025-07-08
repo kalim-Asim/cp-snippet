@@ -99,9 +99,9 @@ int main(){
     cout << inversion_ct << endl;
 }
 
+/************************************************************************************************************************************************/
 
-
-// Binary Indexed Tree 
+// to find occurence of a no. when we are incrementing count of no. in [L,R] by 1
 class BIT {
 public:
     vector<int> bit;
@@ -116,7 +116,7 @@ public:
     void update(int index, int val) {
         while (index <= n) {
             bit[index] += val;
-            index += index & -index; // Move to the next index
+            index += index & -index; 
         }
     }
 
@@ -125,7 +125,7 @@ public:
         int result = 0;
         while (index > 0) {
             result += bit[index];
-            index -= index & -index; // Move to the parent index
+            index -= index & -index; 
         }
         return result;
     }
@@ -135,24 +135,14 @@ public:
         return sum(R) - sum(L - 1);
     }
 };
-
-
-
-/* 	problem ->
-	to find occurence of a no. when we are incrementing count of no. in [L,R] by 1
-*/
 int main() {
     int n = 10;  // Assuming numbers are between 1 and 10
     BIT bit(n);
-
-    // Intervals to add (L, R)
     vector<pair<int, int>> intervals = {{1, 5}, {2, 7}, {4, 9}};
-
-    // Mark the intervals in the BIT
     for (auto [L,R] : intervals) {
-        bit.update(L, 1);   // Increment at the start of the interval
+        bit.update(L, 1); 
         if (R + 1 <= n) {
-            bit.update(R + 1, -1);  // Decrement right after the interval
+            bit.update(R + 1, -1); 
         }
     }
 
@@ -166,3 +156,47 @@ int main() {
 
     return 0;
 }
+
+/************************************************************************************************************************************************/
+// range sum query - mutable (Leetcode)
+class NumArray {
+private:
+    vector<int> bit; 
+    vector<int> nums; 
+    int n;
+    void add(int index, int delta) {
+        index++; // BIT is 1-indexed
+        while (index <= n) {
+            bit[index] += delta;
+            index += index & -index;
+        }
+    }
+    int sum(int index) {
+        index++;  // 1-indexed
+        int result = 0;
+        while (index > 0) {
+            result += bit[index];
+            index -= index & -index;
+        }
+        return result;
+    }
+
+public:
+    NumArray(vector<int>& nums) {
+        this->nums = nums;
+        n = nums.size();
+        bit.assign(n + 1, 0);
+
+        for (int i = 0; i < n; ++i) {
+            add(i, nums[i]);
+        }
+    }
+    void update(int index, int val) {
+        int delta = val - nums[index];
+        nums[index] = val;
+        add(index, delta);
+    }
+    int sumRange(int left, int right) {
+        return sum(right) - sum(left - 1);
+    }
+};
