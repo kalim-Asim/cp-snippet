@@ -1,13 +1,14 @@
 // CSES - company queries 2
 
 const int N = 200000;
+int lvl[N];
 int up[N+1][20];
 
 void dfs(int v, int par, int level = 0) {
   lvl[v] = level;
   for (int u : g[v]) {
     if (u == par) continue;
-    dfs(u, v);
+    dfs(u, v, level + 1);
   }
 }
 
@@ -47,6 +48,15 @@ int LCA(int u, int v) { // logn
   }
   return lift_node(u, 1);
 }
+
+int main() {
+  dfs(1, 0);
+  binary_lifting(1);
+}
+
+
+
+
 
 // just for show - binary search approach
 int LCA2(int u, int v) { // (Logn)*(Logn)
